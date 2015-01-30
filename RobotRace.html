@@ -1118,29 +1118,53 @@ function getLeftAndTopComputer(degree)
 function getPartOfCourt(pos_x, pos_y)
 {
 	partToReturn = 0;
-	if((pos_x > 0 && pos_x < 700) && (pos_y > 0 && pos_y < 150))
+	if((pos_x > 150 && pos_x < 700) && (pos_y > 0 && pos_y < 150))
 	{
 		return partToReturn = 1;
 	}
-	if((pos_x > 700 && pos_x < 880) && (pos_y > 0 && pos_y < 380))
+	if((pos_x > 700 && pos_x < 880) && (pos_y > 150 && pos_y < 230))
 	{
 		partToReturn = 2;
 	}
-	if((pos_x > 700 && pos_x < 970) && (pos_y > 220 && pos_y < 380))
+	if((pos_x > 880 && pos_x < 970) && (pos_y > 220 && pos_y < 380))
 	{
 		partToReturn = 3;
 	}
-	if((pos_x > 970 && pos_x < 1150) && (pos_y > 220 && pos_y < 420))
+	if((pos_x > 970 && pos_x < 1150) && (pos_y > 380 && pos_y < 420))
 	{
 		partToReturn = 4;
 	}
-	if((pos_x > 150 && pos_x < 1150) && (pos_y > 420 && pos_y < 570))
+	if((pos_x > 150 && pos_x < 970) && (pos_y > 420 && pos_y < 570))
 	{
 		partToReturn = 5;
 	}
-	if((pos_x > 0 && pos_x < 150) && (pos_y > 0 && pos_y < 570))
+	if((pos_x > 0 && pos_x < 150) && (pos_y > 150 && pos_y < 420))
 	{
 		partToReturn = 6;
+	}
+	if((pos_x >= 700 && pos_x= < 880) && (pos_y >= 0 && pos_y <= 150))
+	{
+		partToReturn = 7;
+	}
+	if((pos_x >= 700 && pos_x= < 880) && (pos_y >= 230 && pos_y <= 380))
+	{
+		partToReturn = 8;
+	}
+	if((pos_x >= 970 && pos_x= < 1150) && (pos_y >= 230 && pos_y <= 380))
+	{
+		partToReturn = 9;
+	}
+	if((pos_x >= 970 && pos_x= < 1150) && (pos_y >= 420 && pos_y <= 570))
+	{
+		partToReturn = 10;
+	}
+	if((pos_x >= 0 && pos_x <= 150) && (pos_y >= 420 && pos_y <= 570))
+	{
+		partToReturn = 11;
+	}
+	if((pos_x >= 0 && pos_x <= 150) && (pos_y >= 0 && pos_y <= 150))
+	{
+		partToReturn = 12;
 	}
 	return partToReturn;
 }
@@ -1161,46 +1185,83 @@ function getBorderOfPart(numberOfPart)
 	switch(numberOfPart)
 	{
 		case 1:
+			limits.push(100);
 			limits.push(0);
-			limits.push(0);
-			limits.push(880);
+			limits.push(750);
 			limits.push(100);
 			break;
 		case 2:
 			limits.push(700);
-			limits.push(0);
+			limits.push(100);
 			limits.push(830);
-			limits.push(330);
+			limits.push(280);
 			break;
 		case 3:
-			limits.push(700);
+			limits.push(830);
 			limits.push(230);
-			limits.push(1100);
+			limits.push(1020);
 			limits.push(330);
 			break;
 		case 4:
 			limits.push(970);
-			limits.push(230);
+			limits.push(330);
 			limits.push(1100);
-			limits.push(570);
+			limits.push(470);
 			break;
 		case 5:
-			limits.push(0);
+			limits.push(100);
 			limits.push(420);
-			limits.push(1100);
+			limits.push(1020);
 			limits.push(520);
 			break;
 		case 6:
 			limits.push(0);
-			limits.push(0);
 			limits.push(100);
+			limits.push(100);
+			limits.push(470);
+			break;
+		case 7:
+			limits.push(650);
+			limits.push(0);
+			limits.push(830);
+			limits.push(200);
+			break;
+		case 8:
+			limits.push(700);
+			limits.push(180);
+			limits.push(900);
+			limits.push(330);
+			break;
+		case 9:
+			limits.push(920);
+			limits.push(230);
+			limits.push(1100);
+			limits.push(430);
+			break;
+		case 10:
+			limits.push(920);
+			limits.push(370);
+			limits.push(1100);
 			limits.push(520);
+			break;
+		case 11:
+			limits.push(0);
+			limits.push(370);
+			limits.push(200);
+			limits.push(520);
+			break;
+		case 12:
+			limits.push(0);
+			limits.push(0);
+			limits.push(200);
+			limits.push(200);
 			break;
 		default:
 			limits.push(0);
-			limits.push(1150);
 			limits.push(0);
+			limits.push(1120);
 			limits.push(520);
+			break;
 	}
 	return limits;
 }
