@@ -32,6 +32,12 @@ lifeComputer = 5;
 hitControl = 0;
 hitControlComp = 0;
 winner = 0;
+lastPart = 1;
+lastPartFinal = 0;
+lapPlayer = 0;
+lapComputer = 0;
+winPlayer = 0;
+winComputer = 0;
 
 var vShot = [];
 var vShotComputer = [];
@@ -1120,7 +1126,7 @@ function getPartOfCourt(pos_x, pos_y)
 	partToReturn = 0;
 	if((pos_x > 150 && pos_x < 700) && (pos_y > 0 && pos_y < 150))
 	{
-		return partToReturn = 1;
+		partToReturn = 1;
 	}
 	if((pos_x > 700 && pos_x < 880) && (pos_y > 150 && pos_y < 230))
 	{
@@ -1167,6 +1173,37 @@ function getPartOfCourt(pos_x, pos_y)
 		partToReturn = 12;
 	}
 	return partToReturn;
+}
+
+function controlWin(pos_x,pos_y,lap,nroplayer,lastPartFinalT,lastPartT)
+{
+	if((pos_x >= 250 && pos_y <= 300) && (pos_y >= 0 && pos_y <= 150))
+	{
+		if(lastPartFinalT != 7 && lastPartFinalT != 1)
+		{
+			lap++;
+			if(lap == 5)
+			{
+				return true;
+			}
+			if(nroplayer == 1)
+			{
+				lapPlayer = lap;
+				lastPartFinal = lastPartT;
+			}
+			else
+			{
+				lapComputer = lap;
+				//Agregar el de computer lastPart
+			}
+			return false;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	return false;
 }
 
 /*
@@ -1302,12 +1339,19 @@ function sideMoveTankControl(degree,keyP)
 	}
 	
 	part = getPartOfCourt(posTank_x,posTank_y);
-	var limitsPlayer = getBorderOfPart(part);
-	switch(part)
+	if(lastPart != part)
 	{
-		case 1:
-			break;
+		lastPartFinal = lastPart
+		lastPart = part;
 	}
+	
+	if(controlWin(posTank_x,posTank_y,lapPlayer,1,lastPartFinal,lastPart) == true)
+	{
+		winPlayer = 1;
+		speedBall = 0;
+	}
+	
+	var limitsPlayer = getBorderOfPart(part);
 	
 	switch(degree)
 	{
@@ -4098,24 +4142,6 @@ function controlToTurn()
 	
 }
 
-//Controla que alguno gane
-function controlWin()
-{
-	if(lifeComputer == 0)
-	{
-		winner = 1;
-	}
-	if(lifePlayer == 0)
-	{
-		winner = 2;
-	}
-	
-	if(winner != 0)
-	{
-		speedBall = 0;
-	}
-}
-
 function resetGame()
 {
 	posTank_x = 0;
@@ -4219,8 +4245,10 @@ $(document).ready(function(){
 		$('#playerTank').css('top',posTank_y);
 		$('#computerTank').css('left',posComputer_x);
 		$('#computerTank').css('top',posComputer_y);
-		$('#playerLife').html('<meter min="0" low="50" high="100" max="100" value="'+(lifePlayer * 10 * 2)+'"></meter><br>');
-		$('#computerLife').html('<meter min="0" low="50" high="100" max="100" value="'+(lifeComputer * 10 * 2)+'"></meter><br>');
+		$('#playerLap').html(lapPlayer);
+		$('#computerLap').html(lapComputer);
+		//$('#playerLife').html('<meter min="0" low="50" high="100" max="100" value="'+(lifePlayer * 10 * 2)+'"></meter><br>');
+		//$('#computerLife').html('<meter min="0" low="50" high="100" max="100" value="'+(lifeComputer * 10 * 2)+'"></meter><br>');
 		
 	},20,true);
 	
@@ -4328,7 +4356,7 @@ $(document).ready(function(){
 		<div id="player">
 			<span id="playerText"></span>
 			<br />
-			<span id="playerLife"></span>
+			<span id="playerLap"></span>
 		</div>
 		<div id="reset">
 			<input type="button" id="buttonReset" name="reset" value="Reset"/>
@@ -4336,7 +4364,7 @@ $(document).ready(function(){
 		<div id="computer">
 			<span id="computerText" align="center"></span>
 			<br />
-			<span id="computerLife"></span>
+			<span id="computerLap"></span>
 		</div>
 	</div>
 	<!--div id="leftSideCourt">
